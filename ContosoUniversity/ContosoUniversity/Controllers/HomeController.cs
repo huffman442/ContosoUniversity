@@ -19,14 +19,18 @@ namespace ContosoUniversity.Controllers
         public ActionResult About()
         {
             IQueryable<EnrollmentDateGroup> data = from student in db.Students
-                                                   group student by student.EnrollmentDate into dateGroup
-                                                   select new EnrollmentDateGroup()
-                                                   {
-                                                       EnrollmentDate = dateGroup.Key,
-                                                       StudentCount = dateGroup.Count()
-                                                   };
-
+                        group student by student.EnrollmentDate into dateGroup
+                        select new EnrollmentDateGroup()
+                        {
+                            EnrollmentDate = dateGroup.Key,
+                            StudentCount = dateGroup.Count()
+                        };
             return View(data.ToList());
+        }
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
         }
 
         public ActionResult Contact()
